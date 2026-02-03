@@ -110,39 +110,36 @@ function ProductList({ onHomeClick }) {
                     <div className="plantname_heading">
                         <h2 className="plant_heading">Air Purifying Plants</h2>
                     </div>
-
                     <div className="product-list">
                         {plantCategories.map(cat => (
-  <div key={cat.category}>
-    <h2 className="plant_heading">{cat.category}</h2>
+  							<div key={cat.category}>
+    							<h2 className="plant_heading">{cat.category}</h2>
 
-    <div className="product-list">
-      {cat.plants.map(plant => (
-        <div key={plant.name} className="product-card">
-          <h4>{plant.name}</h4>
-          <img src={plant.image} alt={plant.name} />
-          <p>${plant.price}</p>
-
-          <button
-            disabled={cart.some(i => i.name === plant.name)}
-            onClick={() => dispatch(addItem({
-              name: plant.name,
-              cost: plant.price,
-              image: plant.image,
-            }))}
-          >
-            {cart.some(i => i.name === plant.name)
-              ? "Added to Cart"
-              : "Add to Cart"}
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
-))}
-
-                    </div>
-                </div>
+    							<div className="product-list">
+      								{cat.plants.map(plant => (
+        							<div key={plant.name} className="product-card">
+          								<h4>{plant.name}</h4>
+          								<img src={plant.image} alt={plant.name} />
+          								<p>${plant.price}</p>
+          								<button
+            							disabled={cart.some(i => i.name === plant.name)}
+            							onClick={() => dispatch(addItem({
+              							name: plant.name,
+              							cost: plant.price,
+              							image: plant.image,
+            							}))}
+          								>
+            							{cart.some(i => i.name === plant.name)
+              							? "Added to Cart"
+              							: "Add to Cart"}
+          								</button>
+       							 	</div>
+      								))}
+    							</div>
+  							</div>
+							))}
+                    	</div>
+                	</div>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
             )}
