@@ -9,26 +9,30 @@ function ProductList({ onHomeClick }) {
     const cart = useSelector(state => state.cart.items);
     const [showCart, setShowCart] = useState(false);
 
-    const plants = [
-        {
-            name: "Snake Plant",
-            image: "https://cdn.pixabay.com/photo/2021/01/22/06/04/snake-plant-5939187_1280.jpg",
-            description: "Produces oxygen at night, improving air quality.",
-            price: 15
-        },
-        {
-            name: "Spider Plant",
-            image: "https://cdn.pixabay.com/photo/2018/07/11/06/47/chlorophytum-3530413_1280.jpg",
-            description: "Filters formaldehyde and xylene from the air.",
-            price: 12
-        },
-        {
-            name: "Peace Lily",
-            image: "https://cdn.pixabay.com/photo/2019/06/12/14/14/peace-lilies-4269365_1280.jpg",
-            description: "Removes mold spores and purifies the air.",
-            price: 18
-        }
-    ];
+    const plantCategories = [
+  {
+    category: "Air Purifying Plants",
+    plants: [
+      { name, image, price, description },
+      { name, image, price, description }
+    ]
+  },
+  {
+    category: "Aromatic Plants",
+    plants: [
+      { ... },
+      { ... }
+    ]
+  },
+  {
+    category: "Medicinal Plants",
+    plants: [
+      { ... },
+      { ... }
+    ]
+  }
+];
+
 
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
@@ -108,44 +112,35 @@ function ProductList({ onHomeClick }) {
                     </div>
 
                     <div className="product-list">
-                        {plants.map(plant => (
-                            <div key={plant.name} className="product-card">
-                                {/* SALE badge جاية من CSS ::before */}
+                        {plantCategories.map(cat => (
+  <div key={cat.category}>
+    <h2 className="plant_heading">{cat.category}</h2>
 
-                                <h4 className="product-title">{plant.name}</h4>
+    <div className="product-list">
+      {cat.plants.map(plant => (
+        <div key={plant.name} className="product-card">
+          <h4>{plant.name}</h4>
+          <img src={plant.image} alt={plant.name} />
+          <p>${plant.price}</p>
 
-                                <img
-                                    className="product-image"
-                                    src={plant.image}
-                                    alt={plant.name}
-                                />
+          <button
+            disabled={cart.some(i => i.name === plant.name)}
+            onClick={() => dispatch(addItem({
+              name: plant.name,
+              cost: plant.price,
+              image: plant.image,
+            }))}
+          >
+            {cart.some(i => i.name === plant.name)
+              ? "Added to Cart"
+              : "Add to Cart"}
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+))}
 
-                                <p className="product-price">${plant.price}</p>
-
-                                <p style={{ marginBottom: '10px', color: 'grey', fontStyle: 'italic' }}>
-                                    {plant.description}
-                                </p>
-
-                                <button
-                                    className={`product-button ${cart.some(i => i.name === plant.name) ? 'added-to-cart' : ''
-                                        }`}
-                                    disabled={cart.some(i => i.name === plant.name)}
-                                    onClick={() =>
-                                        dispatch(addItem({
-                                            name: plant.name,
-                                            cost: plant.price,
-                                            image: plant.image,
-                                            quantity: 1
-                                        }))
-                                    }
-                                >
-                                    {cart.some(i => i.name === plant.name)
-                                        ? 'Added to Cart'
-                                        : 'Add to Cart'}
-                                </button>
-
-                            </div>
-                        ))}
                     </div>
                 </div>
             ) : (
